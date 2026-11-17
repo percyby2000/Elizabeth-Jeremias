@@ -9,7 +9,7 @@ const { guestName = 'Familia Torres' } = Astro.props;
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
-  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Josefin+Sans:wght@300;400&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Josefin+Sans:wght@300;400;600&family=Playfair+Display:ital,wght@1,400;1,500&display=swap"
   rel="stylesheet"
 />
 
@@ -23,12 +23,17 @@ const { guestName = 'Familia Torres' } = Astro.props;
     />
   </div>
 
+  <!-- Móvil: "Nos casamos" fijo arriba de la foto -->
+  <p class="hero__eyebrow-top reveal" aria-hidden="true">Nos casamos</p>
+
   <div class="hero__content">
+    <!-- Escritorio: "Nos casamos" sobre los nombres -->
     <p class="hero__eyebrow reveal">Nos casamos</p>
 
     <h1 class="hero__names reveal reveal-delay-1">
       <span class="hero__name">Elizabeth</span>
-      <span class="hero__name"><em class="hero__y">y</em> Jeremias</span>
+      <span class="hero__amp" aria-hidden="true">&amp;</span>
+      <span class="hero__name">Jeremias</span>
     </h1>
 
     <p class="hero__date reveal reveal-delay-2">12-12-2026</p>
@@ -41,8 +46,12 @@ const { guestName = 'Familia Torres' } = Astro.props;
   .hero {
     /* Encuadre de la foto (X% Y%). Ajusta si cortan a la pareja */
     --foco: 40% 50%;
+
     --h-dark: #20110a;
     --h-cream: #f6efe4;
+    --h-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --h-amp: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    --h-sans: 'Josefin Sans', 'Helvetica Neue', Arial, sans-serif;
 
     position: relative;
     min-height: 100svh;
@@ -66,9 +75,9 @@ const { guestName = 'Familia Torres' } = Astro.props;
     inset: 0;
     background: linear-gradient(
       90deg,
-      rgba(32, 17, 10, 0) 30%,
-      rgba(32, 17, 10, 0.75) 62%,
-      rgba(32, 17, 10, 0.96) 100%
+      rgba(32, 17, 10, 0) 32%,
+      rgba(32, 17, 10, 0.62) 62%,
+      rgba(32, 17, 10, 0.9) 100%
     );
   }
   .hero__photo {
@@ -84,52 +93,66 @@ const { guestName = 'Familia Torres' } = Astro.props;
     to   { transform: scale(1.09); }
   }
 
-  /* ---------- Texto ---------- */
+  /* ---------- Texto (escritorio: centrado en la zona oscura) ---------- */
   .hero__content {
     position: relative;
     z-index: 2;
-    width: min(42%, 600px);
-    margin-right: clamp(2rem, 7vw, 8rem);
+    width: min(40%, 560px);
+    margin-right: clamp(2rem, 8vw, 9rem);
     padding: 3rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .hero__eyebrow {
-    margin: 0 0 1.2rem;
-    font-family: 'Josefin Sans', sans-serif;
+    margin: 0 0 1.4rem;
+    font-family: var(--h-sans);
     font-weight: 300;
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     letter-spacing: 0.4em;
     text-transform: uppercase;
-    opacity: 0.8;
+    opacity: 0.85;
   }
+  /* Solo móvil */
+  .hero__eyebrow-top { display: none; }
 
   .hero__names {
     margin: 0;
     display: flex;
     flex-direction: column;
-    font-family: 'Cormorant Garamond', serif;
+    align-items: center;
+    font-family: var(--h-serif);
     font-weight: 500;
-    line-height: 0.95;
+    line-height: 1;
   }
   .hero__name {
-    font-size: clamp(3.4rem, 6.6vw, 6.4rem);
-    letter-spacing: -0.015em;
+    font-size: clamp(3.2rem, 5.6vw, 5.6rem);
+    letter-spacing: 0.005em;
   }
-  .hero__y {
+
+  /* El "&" adornado en cursiva */
+  .hero__amp {
+    display: block;
+    font-family: var(--h-amp);
+    font-style: italic;
     font-weight: 400;
-    font-size: 0.55em;
-    opacity: 0.8;
-    margin-right: 0.1em;
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    line-height: 1.05;
+    margin-block: 0.05em;
+    color: var(--h-cream);
+    opacity: 0.95;
   }
 
   .hero__date {
-    margin: 1.8rem 0 0;
-    font-family: 'Josefin Sans', sans-serif;
+    margin: 2rem 0 0;
+    font-family: var(--h-sans);
     font-weight: 300;
-    font-size: clamp(0.8rem, 1.1vw, 0.95rem);
-    letter-spacing: 0.3em;
+    font-size: clamp(0.9rem, 1.3vw, 1.15rem);
+    letter-spacing: 0.32em;
     text-transform: uppercase;
-    opacity: 0.9;
+    opacity: 0.92;
   }
 
   /* ---------- Flecha ---------- */
@@ -142,7 +165,7 @@ const { guestName = 'Familia Torres' } = Astro.props;
     color: var(--h-cream);
     text-decoration: none;
     font-size: 1.4rem;
-    opacity: 0.7;
+    opacity: 0.75;
     animation: hero-bob 2.4s ease-in-out infinite;
   }
   @keyframes hero-bob {
@@ -153,12 +176,14 @@ const { guestName = 'Familia Torres' } = Astro.props;
   /* ---------- Tablet ---------- */
   @media (max-width: 1024px) {
     .hero__content {
-      width: min(50%, 460px);
+      width: min(48%, 440px);
       margin-right: 4vw;
     }
+    .hero__name { font-size: clamp(2.8rem, 6.4vw, 4rem); }
+    .hero__amp  { font-size: clamp(2.2rem, 5vw, 3.2rem); }
   }
 
-  /* ---------- Móvil: foto arriba, texto abajo ---------- */
+  /* ---------- Móvil ---------- */
   @media (max-width: 768px) {
     .hero {
       flex-direction: column;
@@ -168,31 +193,73 @@ const { guestName = 'Familia Torres' } = Astro.props;
 
     .hero__bg {
       bottom: auto;
-      height: 72svh;
-      -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
-              mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+      height: 74svh;
+      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+              mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
     }
     .hero__bg::after { display: none; }
     .hero__photo { object-position: 45% 40%; }
 
+    /* "Nos casamos" arriba de la foto */
+    .hero__eyebrow { display: none; }
+    .hero__eyebrow-top {
+      display: block;
+      position: absolute;
+      z-index: 2;
+      top: 2.4rem;
+      left: 0;
+      right: 0;
+      margin: 0;
+      text-align: center;
+      font-family: var(--h-sans);
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+    }
+
     .hero__content {
       width: 100%;
       margin: 0;
-      padding: 0 1.5rem 4.2rem;
-      text-align: center;
+      /* espacio abajo para el reproductor de música */
+      padding: 0 1rem 6.2rem;
     }
-    .hero__eyebrow {
-      font-size: 0.68rem;
-      margin-bottom: 0.8rem;
+
+    /* Una sola línea: Elizabeth & Jeremias */
+    .hero__names {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 0.28em;
+      white-space: nowrap;
     }
-    .hero__names { align-items: center; }
-    .hero__name { font-size: clamp(3.2rem, 15.5vw, 4.4rem); }
+    .hero__name { font-size: clamp(1.8rem, 8.2vw, 2.7rem); }
+    .hero__amp {
+      display: inline-block;
+      font-size: clamp(2rem, 9vw, 3rem);
+      margin-block: 0;
+      line-height: 1;
+    }
+
     .hero__date {
-      margin-top: 1.2rem;
-      font-size: 0.72rem;
+      margin-top: 1.1rem;
+      font-weight: 600;
+      font-size: 0.74rem;
       letter-spacing: 0.26em;
     }
-    .hero__scroll { bottom: 1rem; }
+
+    /* La flecha va a la izquierda para no chocar con el reproductor */
+    .hero__scroll {
+      left: 1.6rem;
+      bottom: 1.5rem;
+      animation: hero-bob-mobile 2.4s ease-in-out infinite;
+    }
+    @keyframes hero-bob-mobile {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(6px); }
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
