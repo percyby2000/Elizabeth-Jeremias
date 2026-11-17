@@ -23,9 +23,13 @@ const { guestName = 'Familia Torres' } = Astro.props;
   </div>
 
   <div class="welcome__inner">
+
+    <p class="welcome__subtitle reveal reveal-delay-1"></p>
+
     <p class="welcome__text reveal">
       Con inmensa felicidad compartimos que hemos decidido dar el gran paso
       y unir nuestras vidas en matrimonio.
+      
     </p>
 
     <p class="welcome__script reveal reveal-delay-1">
@@ -80,6 +84,23 @@ const { guestName = 'Familia Torres' } = Astro.props;
     letter-spacing: 0.06em;
     line-height: 1.8;
     color: var(--brown-dk, #3a2418);
+  }
+
+  .welcome__verse {
+    margin: 0;
+    max-width: 560px;
+    font-family: var(--font-body, 'Georgia', serif);
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--brown-dk, #3a2418);
+  }
+  .welcome__verse span {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.85em;
+    font-style: normal;
+    letter-spacing: 0.08em;
   }
 
   .welcome__script {

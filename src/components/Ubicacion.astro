@@ -1,0 +1,185 @@
+---
+// Ubicaciones — Ceremonia y Recepción
+
+// Edita estos datos:
+const ceremonia = {
+  hora: '11:00 a. m.',
+  lugar: 'Iglesia Presbiteriana El Arco',
+  mapa: 'https://maps.app.goo.gl/oVEnsfTgbbEgpFBKA',
+};
+const recepcion = {
+  hora: 'A continuación',
+  lugar: 'Salón de Eventos y Recepciones Nueva Castella',
+  mapa: 'https://maps.app.goo.gl/9nfHudqE3wzdwjW96',
+};
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet" />
+
+<section class="place" id="ubicacion">
+  <!-- Flores -->
+  <div class="place__deco place__deco--left" aria-hidden="true">
+    <img src="/img/florisquierda.png" alt="" loading="lazy" />
+  </div>
+  <div class="place__deco place__deco--right" aria-hidden="true">
+    <img src="/img/florderecha.png" alt="" loading="lazy" />
+  </div>
+
+  <div class="place__grid">
+    <!-- Ceremonia -->
+    <article class="place__item reveal">
+      <svg class="place__icon" viewBox="0 0 48 52" aria-hidden="true">
+        <rect x="23" y="0" width="2" height="8" />
+        <rect x="20.5" y="2.2" width="7" height="2" />
+        <path d="M24 7 L34 19 V41 H14 V19 Z" />
+        <path d="M3 30 L9.5 24 L16 30 V41 H3 Z" />
+        <path d="M32 30 L38.5 24 L45 30 V41 H32 Z" />
+        <rect class="place__cut" x="6.5" y="34" width="6" height="7" />
+        <rect class="place__cut" x="35.5" y="34" width="6" height="7" />
+        <path class="place__cut" d="M21 41 V35 A3 3 0 0 1 27 35 V41 Z" />
+        <path class="place__cut" d="M24 27.5 C24 27.5 19.5 24.5 19.5 21.8 C19.5 20.3 20.6 19.3 21.8 19.3 C22.8 19.3 23.6 19.8 24 20.6 C24.4 19.8 25.2 19.3 26.2 19.3 C27.4 19.3 28.5 20.3 28.5 21.8 C28.5 24.5 24 27.5 24 27.5 Z" />
+      </svg>
+
+      <h2 class="place__title">Ceremonia</h2>
+      <p class="place__time">{ceremonia.hora}</p>
+      <p class="place__name">{ceremonia.lugar}</p>
+      <a class="place__btn" href={ceremonia.mapa} target="_blank" rel="noopener noreferrer">Ver mapa</a>
+    </article>
+
+    <!-- Recepción -->
+    <article class="place__item reveal reveal-delay-1">
+      <svg class="place__icon" viewBox="0 0 48 52" aria-hidden="true">
+        <path d="M24 9 C24 9 20.8 6.9 20.8 4.9 C20.8 3.8 21.6 3 22.5 3 C23.2 3 23.8 3.4 24 4 C24.2 3.4 24.8 3 25.5 3 C26.4 3 27.2 3.8 27.2 4.9 C27.2 6.9 24 9 24 9 Z" />
+        <g transform="translate(16 15) rotate(-18)">
+          <path d="M-5 0 H5 L3.6 13 Q0 17 -3.6 13 Z" />
+          <rect x="-0.7" y="15" width="1.4" height="18" />
+          <rect x="-5" y="32.5" width="10" height="1.8" rx="0.9" />
+        </g>
+        <g transform="translate(32 15) rotate(18)">
+          <path d="M-5 0 H5 L3.6 13 Q0 17 -3.6 13 Z" />
+          <rect x="-0.7" y="15" width="1.4" height="18" />
+          <rect x="-5" y="32.5" width="10" height="1.8" rx="0.9" />
+        </g>
+      </svg>
+
+      <h2 class="place__title">Recepción</h2>
+      <p class="place__time">{recepcion.hora}</p>
+      <p class="place__name">{recepcion.lugar}</p>
+      <a class="place__btn" href={recepcion.mapa} target="_blank" rel="noopener noreferrer">Ver mapa</a>
+    </article>
+  </div>
+</section>
+
+<style>
+  .place {
+    --p-accent: var(--terracota, #9e4922);
+    --p-brown: #5e3320;
+    --p-ink: #1f1511;
+    --p-bg: var(--cream, #f2eeeb);
+
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    padding-inline: 1.5rem;
+    background-color: var(--p-bg);
+  }
+
+  /* ---------- Flores ---------- */
+  .place__deco {
+    position: absolute;
+    top: 50%;
+    width: clamp(55px, 9vw, 130px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .place__deco img { display: block; width: 100%; height: auto; }
+  .place__deco--left  { left: 0;  transform: translateY(-50%); }
+  .place__deco--right { right: 0; transform: translateY(-50%); }
+
+  /* ---------- Columnas ---------- */
+  .place__grid {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 8vw, 7rem);
+  }
+  .place__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .place__icon {
+    width: 3.1rem;
+    height: auto;
+    fill: var(--p-brown);
+    margin-bottom: 1.4rem;
+  }
+  .place__icon .place__cut { fill: var(--p-bg); }
+
+  .place__title {
+    margin: 0;
+    font-family: var(--font-display, 'Italiana', serif);
+    font-weight: 400;
+    font-size: clamp(2rem, 3.3vw, 2.7rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--p-accent);
+  }
+
+  .place__time,
+  .place__name {
+    margin: 0;
+    font-family: var(--font-body, Georgia, serif);
+    letter-spacing: 0.06em;
+    color: var(--p-ink);
+  }
+  .place__time {
+    margin-top: 1.5rem;
+    font-size: 1.05rem;
+  }
+  .place__name {
+    margin-top: 1.4rem;
+    max-width: 260px;
+    font-size: 1.1rem;
+    line-height: 1.45;
+  }
+
+  .place__btn {
+    margin-top: 1.4rem;
+    display: inline-flex;
+    justify-content: center;
+    min-width: 200px;
+    padding: 0.55rem 1.4rem;
+    border-radius: 5px;
+    background: var(--p-accent);
+    color: #fff;
+    font-family: var(--font-body, Georgia, serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    box-shadow: 0 3px 6px rgba(60, 25, 10, 0.28);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .place__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(60, 25, 10, 0.3);
+  }
+
+  /* ---------- Móvil: una columna ---------- */
+  @media (max-width: 700px) {
+    .place__grid {
+      grid-template-columns: 1fr;
+      gap: 3.5rem;
+    }
+    .place__deco { width: 52px; opacity: 0.85; }
+    .place__name { max-width: 240px; }
+  }
+</style>
