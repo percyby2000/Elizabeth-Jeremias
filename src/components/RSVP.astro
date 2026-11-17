@@ -1,0 +1,211 @@
+---
+// RSVP — Confirmar asistencia
+
+// Edita estos datos:
+const WHATSAPP = '51999999999'; // número con código de país, sin + ni espacios
+const FECHA_LIMITE = '28 de noviembre de 2026';
+const FOTO = '/img/foto3.jpg'; // foto de la pareja, se mostrará en el panel derecho
+
+const mensaje = encodeURIComponent('Hola, confirmo mi asistencia a la boda de Elizabeth y Jeremias.');
+const confirmUrl = `https://wa.me/${WHATSAPP}?text=${mensaje}`;
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Italiana&family=Pinyon+Script&display=swap"
+  rel="stylesheet"
+/>
+
+<section class="rsvp" id="confirmar">
+  <!-- Panel de texto -->
+  <div class="rsvp__panel">
+    <div class="rsvp__flower" aria-hidden="true">
+      <img src="/img/florisquierda.png" alt="" loading="lazy" />
+    </div>
+
+    <div class="rsvp__content">
+      <svg class="rsvp__icon reveal" viewBox="0 0 48 48" aria-hidden="true">
+        <!-- anillas -->
+        <rect x="10" y="2" width="2.6" height="8" rx="1.3" />
+        <rect x="15.6" y="2" width="2.6" height="8" rx="1.3" />
+        <rect x="21.2" y="2" width="2.6" height="8" rx="1.3" />
+        <rect x="26.8" y="2" width="2.6" height="8" rx="1.3" />
+        <rect x="32.4" y="2" width="2.6" height="8" rx="1.3" />
+        <rect x="38" y="2" width="2.6" height="8" rx="1.3" />
+        <!-- hoja -->
+        <path d="M5 9 H43 A2 2 0 0 1 45 11 V37 L36 46 H7 A2 2 0 0 1 5 44 Z" />
+        <!-- corazón -->
+        <path class="rsvp__cut" d="M24 38 C24 38 14 31.5 14 24.8 C14 21.2 16.6 18.8 19.6 18.8 C21.5 18.8 23.1 19.8 24 21.4 C24.9 19.8 26.5 18.8 28.4 18.8 C31.4 18.8 34 21.2 34 24.8 C34 31.5 24 38 24 38 Z" />
+      </svg>
+
+      <h2 class="rsvp__title reveal reveal-delay-1">Confirmar asistencia</h2>
+
+      <p class="rsvp__text reveal reveal-delay-1">
+        Por favor, confirma tu asistencia antes del {FECHA_LIMITE}
+      </p>
+
+      <a
+        class="rsvp__btn reveal reveal-delay-2"
+        href={confirmUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >Confirmar aquí</a>
+
+      <p class="rsvp__script reveal reveal-delay-3">¡Esperamos verlos y celebrar juntos!</p>
+    </div>
+  </div>
+
+  <!-- Foto -->
+  <div class="rsvp__photo">
+    <img src={FOTO} alt="Elizabeth y Jeremias" loading="lazy" />
+    <p class="rsvp__date">12 - 12 - 2026</p>
+  </div>
+</section>
+
+<style>
+  .rsvp {
+    /* Encuadre de la foto (X% Y%). Ajusta si cortan a la pareja */
+    --foco: 50% 50%;
+
+    --r-accent: var(--terracota, #9e4922);
+    --r-brown: #5e3320;
+    --r-ink: #1f1511;
+    --r-bg: var(--cream, #f2ede4);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100svh;
+    background: var(--r-bg);
+  }
+
+  /* ---------- Panel ---------- */
+  .rsvp__panel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    overflow: hidden;
+  }
+
+  .rsvp__flower {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: clamp(110px, 15vw, 280px);
+    pointer-events: none;
+  }
+  .rsvp__flower img { display: block; width: 100%; height: auto; }
+
+  .rsvp__content {
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .rsvp__icon {
+    width: 2.8rem;
+    height: auto;
+    fill: var(--r-brown);
+    margin-bottom: 1.3rem;
+  }
+  .rsvp__icon .rsvp__cut { fill: var(--r-bg); }
+
+  .rsvp__title {
+    margin: 0;
+    font-family: var(--font-display, 'Italiana', serif);
+    font-weight: 400;
+    font-size: clamp(2rem, 3.2vw, 2.8rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    color: var(--r-accent);
+  }
+
+  .rsvp__text {
+    margin: 1.8rem 0 0;
+    max-width: 420px;
+    font-family: var(--font-body, Georgia, serif);
+    font-size: clamp(1rem, 1.3vw, 1.1rem);
+    letter-spacing: 0.05em;
+    line-height: 1.5;
+    color: var(--r-ink);
+  }
+
+  .rsvp__btn {
+    margin-top: 2.1rem;
+    display: inline-flex;
+    padding: 0.6rem 1.7rem;
+    border-radius: 5px;
+    background: var(--r-accent);
+    color: #fff;
+    font-family: var(--font-body, Georgia, serif);
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    box-shadow: 0 3px 6px rgba(60, 25, 10, 0.28);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .rsvp__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(60, 25, 10, 0.3);
+  }
+
+  .rsvp__script {
+    margin: 2.6rem 0 0;
+    font-family: 'Pinyon Script', cursive;
+    font-size: clamp(1.9rem, 2.8vw, 2.5rem);
+    line-height: 1.2;
+    color: var(--r-brown);
+  }
+
+  /* ---------- Foto ---------- */
+  .rsvp__photo {
+    position: relative;
+    overflow: hidden;
+    min-height: 100%;
+  }
+  .rsvp__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--foco);
+  }
+  .rsvp__date {
+    position: absolute;
+    top: 1.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-family: 'Pinyon Script', cursive;
+    font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    color: #fff;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+  }
+
+  /* ---------- Móvil: foto arriba, texto abajo ---------- */
+  @media (max-width: 800px) {
+    .rsvp {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+    }
+    .rsvp__photo {
+      order: -1;
+      aspect-ratio: 4 / 4.2;
+      max-height: 72svh;
+    }
+    .rsvp__panel {
+      padding: 3.5rem 1.5rem 4rem;
+    }
+    .rsvp__flower { width: 100px; }
+    .rsvp__script { margin-top: 2rem; }
+  }
+</style>

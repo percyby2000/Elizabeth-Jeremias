@@ -1,0 +1,259 @@
+---
+// Calendar Section — Diciembre 2026, día 12 marcado con corazón
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Italiana&family=Pinyon+Script&display=swap"
+  rel="stylesheet"
+/>
+
+<section class="calendar-section" id="calendario">
+  <!-- Flores -->
+  <div class="cal-deco cal-deco--tl" aria-hidden="true">
+    <img src="/img/florisquierda.png" alt="" loading="lazy" />
+  </div>
+  <div class="cal-deco cal-deco--r" aria-hidden="true">
+    <img src="/img/derecho.png" alt="" loading="lazy" />
+  </div>
+
+  <div class="cal-layout">
+    <!-- Calendario -->
+    <div class="cal">
+      <h2 class="cal__title reveal">El gran día</h2>
+      <p class="cal__month reveal reveal-delay-1">Diciembre</p>
+
+      <div class="cal__weekdays reveal reveal-delay-1">
+        <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span>
+        <span>Jue</span><span>Vie</span><span>Sáb</span>
+      </div>
+
+      <div class="cal__days reveal reveal-delay-2">
+        <!-- Diciembre 2026 empieza el martes -->
+        <span></span>
+        <span></span>
+        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+        <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+        <span>11</span>
+        <span class="cal__heart" aria-label="12 de diciembre, día de la boda">
+          <svg viewBox="0 0 32 29" aria-hidden="true">
+            <path d="M16 28C16 28 2 18.5 2 9.5C2 5 5.3 2 9 2C12 2 14.6 3.7 16 6.3C17.4 3.7 20 2 23 2C26.7 2 30 5 30 9.5C30 18.5 16 28 16 28Z" />
+          </svg>
+          <b>12</b>
+        </span>
+        <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span>
+        <span>18</span><span>19</span><span>20</span><span>21</span><span>22</span>
+        <span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
+        <span>28</span><span>29</span><span>30</span><span>31</span>
+      </div>
+
+      <a
+        class="cal__link"
+        href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Elizabeth+%26+Jeremias&dates=20261212T110000/20261212T180000&details=Ceremonia+en+la+Iglesia+Presbiteriana+El+Arco+y+recepcion+en+Nueva+Castella&location=Iglesia+Presbiteriana+El+Arco"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Agendar en Google Calendar
+      </a>
+    </div>
+
+    <!-- Fotos -->
+    <div class="gallery reveal reveal-delay-1">
+      <div class="gallery__arch">
+        <img src="/img/arena.jpg" alt="Elizabeth y Jeremias" loading="lazy" />
+      </div>
+      <div class="gallery__small">
+        <img src="/img/historia.jpg" alt="" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .calendar-section {
+    --c-accent: var(--terracota, #9e4922);
+    --c-ink: #1f1511;
+    --c-soft: #7a5a48;
+
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(4rem, 8vw, 7rem);
+    padding-inline: 1.5rem;
+    background-color: var(--cream, #f2ede4);
+  }
+
+  /* ---------- Flores ---------- */
+  .cal-deco {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .cal-deco img { display: block; width: 100%; height: auto; }
+  .cal-deco--tl {
+    top: 0;
+    left: 0;
+    width: clamp(110px, 17vw, 300px);
+  }
+  .cal-deco--r {
+    top: 50%;
+    right: 0;
+    width: clamp(60px, 9vw, 150px);
+    transform: translateY(-50%);
+  }
+
+  /* ---------- Layout ---------- */
+  .cal-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 425px) minmax(0, 555px);
+    justify-content: center;
+    align-items: center;
+    gap: clamp(3rem, 9vw, 9rem);
+  }
+
+  /* ---------- Calendario ---------- */
+  .cal {
+    width: 100%;
+    text-align: center;
+  }
+  .cal__title {
+    margin: 0;
+    font-family: var(--font-display, 'Italiana', serif);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 3.4vw, 2.9rem);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--c-accent);
+  }
+  .cal__month {
+    margin: 0.3rem 0 0.9rem;
+    font-family: var(--font-script, 'Pinyon Script', cursive);
+    font-size: clamp(2rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    color: #6b3f2c;
+  }
+
+  .cal__weekdays,
+  .cal__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-family: var(--font-body, Georgia, serif);
+  }
+  .cal__weekdays {
+    padding-block: 0.5rem;
+    border-block: 1px solid var(--c-accent);
+    font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+    color: var(--c-soft);
+  }
+  .cal__days {
+    row-gap: 0.15rem;
+    padding-block: 0.7rem 2.2rem;
+    border-bottom: 1px solid var(--c-accent);
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    color: var(--c-ink);
+  }
+  .cal__days > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+  }
+
+  /* Día de la boda: corazón */
+  .cal__heart {
+    position: relative;
+    color: #fff;
+  }
+  .cal__heart svg {
+    position: absolute;
+    width: 2.9rem;
+    height: auto;
+    fill: var(--c-accent);
+    animation: cal-beat 2.2s ease-in-out infinite;
+  }
+  .cal__heart b {
+    position: relative;
+    font-weight: 600;
+    padding-top: 0.2rem;
+  }
+  @keyframes cal-beat {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.1); }
+  }
+
+  .cal__link {
+    display: inline-block;
+    margin-top: 1.4rem;
+    font-family: var(--font-body, Georgia, serif);
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--c-accent);
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+  }
+  .cal__link:hover { opacity: 0.7; text-decoration: underline; }
+
+  /* ---------- Fotos ---------- */
+  .gallery {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 555 / 570;
+    /* Encuadre de cada foto (X% Y%). Ajusta si cortan a la pareja */
+    --foco-arco: 50% 40%;
+    --foco-chica: 50% 50%;
+  }
+  .gallery img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .gallery__arch {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 71.2%;
+    height: 98.5%;
+    overflow: hidden;
+    border-radius: 50% 50% 0 50% / 34% 34% 0 34%;
+  }
+  .gallery__arch img { object-position: var(--foco-arco); }
+  .gallery__small {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 41.5%;
+    height: 50%;
+    overflow: hidden;
+  }
+  .gallery__small img { object-position: var(--foco-chica); }
+
+  /* ---------- Tablet ---------- */
+  @media (max-width: 1024px) {
+    .cal-layout {
+      grid-template-columns: minmax(0, 400px) minmax(0, 420px);
+      gap: 3rem;
+    }
+  }
+
+  /* ---------- Móvil: calendario arriba, fotos abajo ---------- */
+  @media (max-width: 800px) {
+    .cal-layout {
+      grid-template-columns: minmax(0, 420px);
+      gap: 3rem;
+    }
+    .cal-deco--r { display: none; }
+    .cal-deco--tl { width: 120px; }
+    .cal { padding-top: 2.5rem; }
+    .gallery { max-width: 400px; margin-inline: auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cal__heart svg { animation: none; }
+  }
+</style>

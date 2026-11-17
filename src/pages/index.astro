@@ -1,0 +1,120 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Envelope from '../components/Envelope.astro';
+import Hero from '../components/Hero.astro';
+import Welcome from '../components/Welcome.astro';
+import Countdown from '../components/Countdown.astro';
+import Calendar from '../components/Calendar.astro';
+import Details from '../components/Details.astro';
+import Itinerary from '../components/Itinerary.astro';
+import Gallery from '../components/Gallery.astro';
+import Rules from '../components/Rules.astro';
+import RSVP from '../components/RSVP.astro';
+import MusicPlayer from '../components/MusicPlayer.astro';
+import Closing from '../components/Closing.astro';
+
+// Obtener parámetros de la URL: ?n=Familia%20Torres&p=2
+const guestName = Astro.url.searchParams.get('n') || 'Familia Torres';
+const pax = parseInt(Astro.url.searchParams.get('p') || '2', 10);
+---
+
+<Layout title="Elizabeth & Jeremias — Boda 2026" guestName={guestName}>
+  <!-- Sobre Interactivo de Apertura -->
+  <Envelope guestName={guestName} pax={pax} />
+
+  <!-- Navegación lateral sutil de puntos -->
+  <nav class="nav-dots" aria-label="Secciones">
+    <a href="#inicio"          class="nav-dot" data-section="inicio"          title="Inicio"></a>
+    <a href="#bienvenida"      class="nav-dot" data-section="bienvenida"      title="Bienvenida"></a>
+    <a href="#cuenta-regresiva" class="nav-dot" data-section="cuenta-regresiva" title="Cuenta Regresiva"></a>
+    <a href="#calendario"      class="nav-dot" data-section="calendario"      title="Calendario"></a>
+    <a href="#detalles"        class="nav-dot" data-section="detalles"        title="Cuándo y Dónde"></a>
+    <a href="#itinerario"      class="nav-dot" data-section="itinerario"      title="Itinerario"></a>
+    <a href="#galeria"         class="nav-dot" data-section="galeria"         title="Galería"></a>
+    <a href="#informacion"     class="nav-dot" data-section="informacion"     title="Información"></a>
+    <a href="#confirmacion"    class="nav-dot" data-section="confirmacion"    title="Confirmación"></a>
+  </nav>
+
+  <main>
+    <Hero guestName={guestName} />
+    <Welcome guestName={guestName} />
+    <Countdown />
+    <Calendar />
+   
+    <Details src="/img/fondo1.jpg"/>
+    <Itinerary />
+    <Gallery />
+    <Rules />
+    <RSVP guestName={guestName} pax={pax} />
+    <Closing />
+  </main>
+
+  <MusicPlayer />
+</Layout>
+
+<script>
+  // Observador de revelación al hacer scroll
+  const revealEls = document.querySelectorAll('.reveal, .reveal-scale');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+  revealEls.forEach(el => observer.observe(el));
+
+  // Puntos de navegación activa
+  const sections = document.querySelectorAll('section[id], footer[id]');
+  const dots     = document.querySelectorAll('.nav-dot');
+
+  const sectObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          dots.forEach(d => d.classList.remove('active'));
+          const dot = document.querySelector(`.nav-dot[data-section="${entry.target.id}"]`);
+          if (dot) dot.classList.add('active');
+        }
+      });
+    },
+    { threshold: 0.35 }
+  );
+  sections.forEach(s => sectObs.observe(s));
+</script>
+
+<style>
+  /* Puntos de navegación en el margen derecho */
+  .nav-dots {
+    position: fixed;
+    right: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(158, 73, 34, 0.25);
+    border: 1.5px solid rgba(158, 73, 34, 0.45);
+    transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
+    cursor: pointer;
+  }
+  .nav-dot:hover,
+  .nav-dot.active {
+    background: var(--terracota);
+    border-color: var(--terracota);
+    transform: scale(1.4);
+  }
+
+  @media (max-width: 768px) {
+    .nav-dots { display: none; }
+  }
+</style>

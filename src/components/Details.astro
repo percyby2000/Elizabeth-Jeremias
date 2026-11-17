@@ -1,0 +1,45 @@
+---
+// Foto fija: al hacer scroll, la sección siguiente sube y la tapa
+export interface Props {
+  src?: string;
+  alt?: string;
+  height?: string;  // alto de la foto, por ejemplo '100svh' o '80svh'
+  foco?: string;    // encuadre X% Y%
+}
+const {
+  src = '/img/fondo1.jpg',
+  alt = 'Elizabeth y Jeremias',
+  height = '100svh',
+  foco = '50% 40%',
+} = Astro.props;
+---
+
+<div class="photo-break" style={`--alto:${height}; --foco:${foco};`}>
+  <img src={src} alt={alt} loading="lazy" decoding="async" />
+</div>
+
+<style>
+  .photo-break {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+    height: var(--alto);
+    overflow: hidden;
+    background: #24130a;
+  }
+  .photo-break img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--foco);
+  }
+
+  /* Las secciones que vienen después se montan encima de la foto.
+     Deben tener fondo sólido (las tuyas ya lo tienen). */
+  .photo-break ~ :global(section),
+  .photo-break ~ :global(footer) {
+    position: relative;
+    z-index: 1;
+  }
+</style>

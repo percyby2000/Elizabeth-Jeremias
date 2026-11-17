@@ -1,0 +1,129 @@
+---
+// Countdown Timer Section — 12 de diciembre de 2026
+---
+
+<section class="countdown" id="cuenta-regresiva">
+  <p class="countdown__tag reveal">Faltan</p>
+
+  <div class="countdown__timer reveal reveal-delay-1" id="countdown-timer">
+    <div class="countdown__unit">
+      <span class="countdown__num" id="cd-days">00</span>
+      <span class="countdown__label">Días</span>
+    </div>
+    <div class="countdown__unit">
+      <span class="countdown__num" id="cd-hours">00</span>
+      <span class="countdown__label">Horas</span>
+    </div>
+    <div class="countdown__unit">
+      <span class="countdown__num" id="cd-mins">00</span>
+      <span class="countdown__label">Min</span>
+    </div>
+    <div class="countdown__unit">
+      <span class="countdown__num" id="cd-secs">00</span>
+      <span class="countdown__label">Seg</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Boda: 12 de diciembre de 2026 a las 11:00 (hora de Perú, UTC-5)
+  const WEDDING_DATE = new Date('2026-12-12T11:00:00-05:00');
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+
+  function tick() {
+    const diff = WEDDING_DATE.getTime() - Date.now();
+
+    if (diff <= 0) {
+      const timerEl = document.getElementById('countdown-timer');
+      if (timerEl) {
+        timerEl.innerHTML =
+          '<p class="countdown__done">¡Hoy es nuestro gran día!</p>';
+      }
+      return;
+    }
+
+    const days  = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000) / 60000);
+    const secs  = Math.floor((diff % 60000) / 1000);
+
+    const set = (id: string, value: number) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = pad(value);
+    };
+
+    set('cd-days', days);
+    set('cd-hours', hours);
+    set('cd-mins', mins);
+    set('cd-secs', secs);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+<style>
+  .countdown {
+    padding-block: clamp(2.8rem, 6vw, 4.2rem);
+    padding-inline: 1rem;
+    background-color: var(--terracota, #9e4922);
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.8rem, 2vw, 1.2rem);
+  }
+
+  .countdown__tag {
+    margin: 0;
+    font-family: var(--font-display, 'Italiana', serif);
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .countdown__timer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(1.2rem, 4.5vw, 3.2rem);
+  }
+
+  .countdown__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 3.2ch;
+  }
+
+  .countdown__num {
+    font-family: var(--font-display, 'Italiana', serif);
+    font-size: clamp(2.6rem, 8vw, 4.6rem);
+    font-weight: 400;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .countdown__label {
+    font-family: var(--font-body, Georgia, serif);
+    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+    line-height: 1;
+  }
+
+  .countdown__done {
+    margin: 0;
+    font-family: var(--font-script, 'Pinyon Script', cursive);
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+  }
+
+  @media (max-width: 420px) {
+    .countdown__timer { gap: 1rem; }
+    .countdown__num   { font-size: 2.4rem; }
+    .countdown__unit  { min-width: 2.8ch; }
+  }
+</style>

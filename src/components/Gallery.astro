@@ -1,0 +1,203 @@
+---
+// Photo Gallery Section
+---
+
+<section class="gallery" id="galeria">
+  <div class="container">
+    <div class="gallery__header reveal">
+      
+      <h2 class="gallery__title">Momentos juntos</h2>
+    </div>
+
+    <div class="gallery__grid">
+      <div class="gallery__item gallery__item--large reveal">
+        <img src="/img/arena.jpg" alt="Jeremias y Elizabeth" loading="lazy" />
+      </div>
+      <div class="gallery__item reveal reveal-delay-1">
+        <img src="/img/foto3.jpg" alt="Jeremias y Elizabeth" loading="lazy" />
+      </div>
+      <div class="gallery__item reveal reveal-delay-2">
+        <img src="/img/foto9.jpg" alt="Jeremias y Elizabeth" loading="lazy" />
+      </div>
+      <div class="gallery__item reveal reveal-delay-1">
+        <img src="/img/foto6.jpg" alt="Jeremias y Elizabeth" loading="lazy" />
+      </div>
+      <div class="gallery__item reveal reveal-delay-2">
+        <img src="/img/foto5.jpg" alt="Jeremias y Elizabeth" loading="lazy" />
+      </div>
+    </div>
+
+    <!-- Couple photo center -->
+    <div class="gallery__couple reveal reveal-delay-2">
+      <div class="gallery__couple-frame">
+        <img src="/img/historia.jpg" alt="Jeremias &amp; Elizabeth" />
+        <div class="gallery__couple-label">
+          <span class="gallery__couple-names">Jeremias &amp; Elizabeth</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Vista ampliada">
+  <button class="lightbox__close" id="lightbox-close" aria-label="Cerrar">✕</button>
+  <img class="lightbox__img" id="lightbox-img" src="" alt="" />
+</div>
+
+<script>
+  const galleryItems = document.querySelectorAll('.gallery__item img, .gallery__couple-frame img');
+  const lightbox     = document.getElementById('lightbox')!;
+  const lbImg        = document.getElementById('lightbox-img') as HTMLImageElement;
+  const lbClose      = document.getElementById('lightbox-close')!;
+
+  galleryItems.forEach(img => {
+    (img as HTMLElement).style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      lbImg.src = (img as HTMLImageElement).src;
+      lbImg.alt = (img as HTMLImageElement).alt;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+<style>
+  .gallery {
+    padding-block: var(--section-pad);
+    background-color: var(--cream-light);
+  }
+
+  .gallery__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .gallery__title {
+    font-family: var(--font-script);
+    font-style: italic;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--brown-dk);
+    font-weight: 400;
+    margin-top: 0.5rem;
+  }
+
+  /* Masonry-like grid */
+  .gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 220px;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+  @media (max-width: 700px) {
+    .gallery__grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 160px; }
+  }
+  @media (max-width: 450px) {
+    .gallery__grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
+  }
+
+  .gallery__item { overflow: hidden; border-radius: 3px; }
+  .gallery__item--large { grid-row: span 2; }
+  .gallery__item--wide  { grid-column: span 2; }
+
+  .gallery__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .gallery__item:hover img { transform: scale(1.06); }
+
+  /* Center couple showcase */
+  .gallery__couple {
+    display: flex;
+    justify-content: center;
+  }
+  .gallery__couple-frame {
+    position: relative;
+    width: min(100%, 480px);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 16px 64px rgba(100,50,20,0.2);
+  }
+  .gallery__couple-frame img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+  }
+  .gallery__couple-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(30,10,2,0.75));
+    padding: 2rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .gallery__couple-names {
+    font-family: var(--font-script);
+    font-style: italic;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    color: var(--white);
+  }
+  .gallery__couple-year {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    color: var(--gold-lt);
+    text-transform: uppercase;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    animation: fadeInUp 0.25s ease;
+  }
+  .lightbox.active { display: flex; }
+
+  .lightbox__img {
+    max-width: 100%;
+    max-height: 90svh;
+    object-fit: contain;
+    border-radius: 3px;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+  }
+  .lightbox__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--white);
+    font-size: 1.1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox__close:hover { background: rgba(255,255,255,0.25); }
+</style>

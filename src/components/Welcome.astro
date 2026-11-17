@@ -1,0 +1,97 @@
+---
+// Welcome / Frase Inicial Section
+export interface Props {
+  guestName?: string;
+}
+const { guestName = 'Familia Torres' } = Astro.props;
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap"
+  rel="stylesheet"
+/>
+
+<section class="welcome" id="bienvenida">
+  <!-- Flores laterales -->
+  <div class="welcome__deco welcome__deco--left" aria-hidden="true">
+    <img src="/img/florisquierda.png" alt="" loading="lazy" />
+  </div>
+  <div class="welcome__deco welcome__deco--right" aria-hidden="true">
+    <img src="/img/florderecha.png" alt="" loading="lazy" />
+  </div>
+
+  <div class="welcome__inner">
+    <p class="welcome__text reveal">
+      Con inmensa felicidad compartimos que hemos decidido dar el gran paso
+      y unir nuestras vidas en matrimonio.
+    </p>
+
+    <p class="welcome__script reveal reveal-delay-1">
+      Los invitamos a acompañarnos en<br />este día tan especial.
+    </p>
+  </div>
+</section>
+
+<style>
+  .welcome {
+    position: relative;
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+    background-color: var(--cream, #f3ede5);
+    overflow: hidden;
+  }
+
+  /* ---------- Flores ---------- */
+  .welcome__deco {
+    position: absolute;
+    top: 50%;
+    width: clamp(48px, 9vw, 130px);
+    pointer-events: none;
+    opacity: 0.9;
+  }
+  .welcome__deco img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .welcome__deco--left  { left: 0;  transform: translateY(-50%); }
+  .welcome__deco--right { right: 0; transform: translateY(-50%); }
+
+  /* ---------- Texto ---------- */
+  .welcome__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin-inline: auto;
+    padding-inline: clamp(3.2rem, 13vw, 2rem);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1.2rem, 2.4vw, 1.8rem);
+  }
+
+  .welcome__text {
+    margin: 0;
+    max-width: 560px;
+    font-family: var(--font-body, 'Georgia', serif);
+    font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+    letter-spacing: 0.06em;
+    line-height: 1.8;
+    color: var(--brown-dk, #3a2418);
+  }
+
+  .welcome__script {
+    margin: 0;
+    font-family: 'Pinyon Script', cursive;
+    font-size: clamp(1.9rem, 5.4vw, 2.8rem);
+    line-height: 1.15;
+    color: var(--terracota, #b5502a);
+  }
+
+  /* En pantallas grandes el padding lateral ya no hace falta */
+  @media (min-width: 900px) {
+    .welcome__inner { padding-inline: 2rem; }
+  }
+</style>

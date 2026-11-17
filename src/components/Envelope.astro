@@ -1,0 +1,395 @@
+---
+export interface Props {
+  guestName?: string;
+  pax?: number;
+}
+
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet" />
+
+<div class="envelope-overlay" id="envelope-overlay">
+  <div class="envelope-scene">
+    <p class="envelope-intro">El día más importante de nuestras vidas ha<br />llegado.</p>
+    <p class="envelope-title">¡NOS CASAMOS!</p>
+
+    <div
+      class="envelope-card"
+      id="envelope-trigger"
+      role="button"
+      tabindex="0"
+      aria-label="Abrir invitación"
+    >
+      <div class="envelope">
+        <div class="envelope-back"></div>
+
+        <!-- Carta -->
+        <div class="envelope-letter" id="envelope-letter">
+          <div class="letter-card">
+            <div class="letter-reservation">
+              <span>RESERVADO PARA TÍ</span>
+              <span>Con mucho cariño</span>
+
+
+            </div>
+            <img src="/img/foto3.jpg" alt="Elizabeth y Jeremias" class="letter-photo" />
+          </div>
+        </div>
+
+        <!-- Frente del sobre (bolsillo con pliegues) -->
+        <svg class="envelope-front" viewBox="0 0 478 350" preserveAspectRatio="none" aria-hidden="true">
+          <path class="pocket" d="M0 38.5 L239 210 L478 38.5 V350 H0 Z" />
+          <g class="fold-soft">
+            <path d="M0 308 L182 169" />
+            <path d="M478 308 L296 169" />
+          </g>
+          <g class="fold-line">
+            <path d="M0 308 L182 169" />
+            <path d="M478 308 L296 169" />
+          </g>
+        </svg>
+
+        <!-- Solapa -->
+        <div class="envelope-flap" id="envelope-flap"></div>
+
+        <p class="open-label" id="open-label">Clic aquí<br />para abrir</p>
+
+        <div class="envelope-seal" id="envelope-seal">
+          <img src="/img/YkuheWi2rFe3Pw9we5Kok8grI.png" alt="Sello de cera" />
+        </div>
+      </div>
+
+      <button class="details-button" id="envelope-details" type="button">VER MÁS<br />DETALLES</button>
+    </div>
+
+    <p class="envelope-names">ELIZABETH &amp; JEREMIAS</p>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById('envelope-overlay');
+  const trigger = document.getElementById('envelope-trigger');
+  const flap = document.getElementById('envelope-flap');
+  const seal = document.getElementById('envelope-seal');
+  const letter = document.getElementById('envelope-letter');
+  const details = document.getElementById('envelope-details');
+  let opened = false;
+
+  function openEnvelope() {
+    if (opened) return;
+    opened = true;
+    trigger?.classList.add('is-open');
+    seal?.classList.add('broken');
+    flap?.classList.add('opened');
+    setTimeout(() => letter?.classList.add('extracted'), 450);
+  }
+
+  function showDetails(e: Event) {
+    e.stopPropagation();
+    window.dispatchEvent(new CustomEvent('wedding-details-opened'));
+    overlay?.classList.add('fade-out');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      if (overlay) overlay.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 850);
+  }
+
+  trigger?.addEventListener('click', openEnvelope);
+  trigger?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openEnvelope();
+    }
+  });
+  details?.addEventListener('click', showDetails);
+  document.body.style.overflow = 'hidden';
+</script>
+
+<style>
+  .envelope-overlay {
+    --env: #9a4c2b;
+    --env-text: #9a4b2a;
+
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #f3ede4;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .envelope-overlay.fade-out {
+    opacity: 0;
+    transform: scale(1.03);
+    pointer-events: none;
+  }
+
+  .envelope-scene {
+    width: min(100%, 900px);
+    text-align: center;
+    padding: 1rem 1.25rem;
+    transform: translateY(-1rem);
+  }
+
+  /* ---------- Textos ---------- */
+  .envelope-intro {
+    margin: 0 0 1.1rem;
+    font-family: var(--font-body, Georgia, serif);
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    letter-spacing: 0.06em;
+    line-height: 1.35;
+    color: #b0593a;
+  }
+  .envelope-title,
+  .envelope-names {
+    margin: 0;
+    font-family: var(--font-display, 'Italiana', serif);
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--env-text);
+  }
+  .envelope-title {
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    line-height: 1;
+    margin-bottom: 1.4rem;
+  }
+  .envelope-names {
+    font-size: clamp(1.9rem, 3.6vw, 2.7rem);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    margin-top: 0.6rem;
+  }
+
+  /* ---------- Sobre ---------- */
+  .envelope-card {
+    position: relative;
+    width: min(100%, 455px);
+    height: 430px;
+    margin: auto;
+    cursor: pointer;
+    outline: none;
+  }
+  .envelope {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 3.5rem;
+    height: 335px;
+    perspective: 1100px;
+  }
+
+  .envelope-back {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--env);
+    box-shadow: 12px 14px 28px rgba(60, 30, 15, 0.28);
+  }
+
+  /* Frente */
+  .envelope-front {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .envelope-front .pocket { fill: var(--env); }
+  .envelope-front .fold-soft path {
+    fill: none;
+    stroke: rgba(55, 20, 6, 0.1);
+    stroke-width: 7;
+    vector-effect: non-scaling-stroke;
+  }
+  .envelope-front .fold-line path {
+    fill: none;
+    stroke: rgba(55, 20, 6, 0.3);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Solapa */
+  .envelope-flap {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    transform-origin: top center;
+    filter: drop-shadow(0 7px 7px rgba(50, 18, 6, 0.32));
+    pointer-events: none;
+    transition: transform 0.75s ease, z-index 0s 0.35s;
+  }
+  .envelope-flap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--env);
+    clip-path: polygon(0 0, 100% 0, 100% 11%, 50% 60%, 0 11%);
+  }
+  .envelope-flap.opened {
+    transform: rotateX(180deg);
+    z-index: 1;
+  }
+
+  /* Texto "Clic aquí" */
+  .open-label {
+    position: absolute;
+    z-index: 7;
+    top: 27%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    pointer-events: none;
+    font-family: var(--font-body, Georgia, serif);
+    font-weight: 600;
+    font-size: 1.15rem;
+    letter-spacing: 0.03em;
+    line-height: 1.1;
+    color: #fff;
+    transition: opacity 0.25s ease;
+  }
+  .envelope-card.is-open .open-label { opacity: 0; }
+
+  /* Sello */
+  .envelope-seal {
+    position: absolute;
+    z-index: 7;
+    left: 50%;
+    top: 60%;
+    width: 4.1rem;
+    height: 4.1rem;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.35));
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .envelope-seal img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .envelope-seal.broken {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.25);
+    pointer-events: none;
+  }
+
+  /* ---------- Carta ---------- */
+  .envelope-letter {
+    position: absolute;
+    z-index: 2;
+    top: 1rem;
+    left: 1.2rem;
+    right: 1.2rem;
+    height: 285px;
+    transform: translateY(0) scale(0.98);
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .envelope-letter.extracted {
+    transform: translateY(-60px) scale(1.02);
+    z-index: 3;
+  }
+  .letter-card {
+    position: relative;
+    height: 100%;
+    padding: 1rem;
+    background: #f6f1e8;
+    border: 1px solid #bc795d;
+    box-shadow: 0 8px 18px rgba(49, 25, 15, 0.16);
+    transform: rotate(-6deg);
+  }
+  .letter-reservation {
+    position: absolute;
+    z-index: 2;
+    top: 1rem;
+    left: 1rem;
+    width: 52%;
+    min-height: 135px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #f7f2e9;
+    border: 2px solid #b86f51;
+    outline: 1px solid #b86f51;
+    outline-offset: -7px;
+    color: #302723;
+    padding: 0.8rem;
+    font-family: var(--font-body, Georgia, serif);
+  }
+  .letter-reservation span {
+    font-family: var(--font-display, 'Italiana', serif);
+    font-size: 0.73rem;
+    font-weight: 700;
+  }
+  .letter-reservation strong { font-size: 1.35rem; font-weight: 500; }
+  .letter-reservation small { font-size: 1.1rem; }
+  .letter-photo {
+    position: absolute;
+    right: 0.7rem;
+    top: 1.8rem;
+    width: 52%;
+    height: 205px;
+    object-fit: cover;
+    transform: rotate(7deg);
+    border: 0.6rem solid #f7f2e9;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ---------- Botón ---------- */
+  .details-button {
+    position: absolute;
+    z-index: 10;
+    right: -2.5rem;
+    bottom: 1rem;
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 50%;
+    border: 3px double #b86f51;
+    background: #f7f2e9;
+    color: #b76543;
+    font-family: var(--font-display, 'Italiana', serif);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8);
+    transition: opacity 0.5s ease 0.9s, transform 0.5s ease 0.9s, background 0.2s;
+  }
+  .envelope-card.is-open .details-button {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+  }
+  .details-button:hover { background: #fff; }
+
+  /* ---------- Móvil ---------- */
+  @media (max-width: 600px) {
+    .envelope-title { margin-bottom: 1rem; }
+    .envelope-card { height: 385px; }
+    .envelope { top: 2rem; height: 270px; }
+    .open-label { font-size: 1rem; }
+    .envelope-seal { width: 3.4rem; height: 3.4rem; }
+    .envelope-letter { height: 235px; }
+    .envelope-letter.extracted { transform: translateY(-45px) scale(1.01); }
+    .letter-photo { height: 165px; }
+    .letter-reservation { min-height: 110px; }
+    .details-button {
+      right: -0.5rem;
+      bottom: 0;
+      width: 6rem;
+      height: 6rem;
+      font-size: 0.68rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .envelope-flap,
+    .envelope-letter,
+    .envelope-seal { transition-duration: 0.01s; }
+  }
+</style>

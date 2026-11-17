@@ -1,0 +1,206 @@
+---
+// Floating Music Player
+---
+
+<div class="music-player" id="music-player" aria-label="Reproductor de música">
+  <audio id="wedding-audio" loop preload="auto">
+    <source src="/img/amFAlJOGFmN1G25MRUKxiuo5f8.mp3" type="audio/mpeg" />
+    <source src="/img/0JTIo86AJdZZ4yZ5isSs7LFFPW0.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Vinilo giratorio -->
+  <div class="music-player__disc" id="music-disc" aria-hidden="true">
+    <div class="music-player__vinyl">
+      <div class="music-player__vinyl-inner"></div>
+    </div>
+  </div>
+
+  <!-- Controles -->
+  <div class="music-player__controls">
+    <button class="music-player__btn" id="music-toggle" aria-label="Reproducir música" type="button">
+      <svg class="music-player__icon music-player__icon--play" id="icon-play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      <svg class="music-player__icon music-player__icon--pause" id="icon-pause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      </svg>
+    </button>
+    <div class="music-player__info">
+      <span class="music-player__label">Música de fondo</span>
+      <span class="music-player__bars" id="music-bars" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const audio     = document.getElementById('wedding-audio') as HTMLAudioElement | null;
+  const toggle    = document.getElementById('music-toggle');
+  const disc      = document.getElementById('music-disc');
+  const bars      = document.getElementById('music-bars');
+  const iconPlay  = document.getElementById('icon-play');
+  const iconPause = document.getElementById('icon-pause');
+
+  let playing = false;
+
+  function setPlaying(state: boolean) {
+    playing = state;
+    if (state) {
+      disc?.classList.add('spinning');
+      bars?.classList.add('active');
+      if (iconPlay) iconPlay.style.display = 'none';
+      if (iconPause) iconPause.style.display = 'block';
+      toggle?.setAttribute('aria-label', 'Pausar música');
+    } else {
+      disc?.classList.remove('spinning');
+      bars?.classList.remove('active');
+      if (iconPlay) iconPlay.style.display = 'block';
+      if (iconPause) iconPause.style.display = 'none';
+      toggle?.setAttribute('aria-label', 'Reproducir música');
+    }
+  }
+
+  toggle?.addEventListener('click', () => {
+    if (!audio) return;
+    if (playing) {
+      audio.pause();
+      setPlaying(false);
+    } else {
+      audio.play().then(() => setPlaying(true)).catch(() => {});
+    }
+  });
+
+  audio?.addEventListener('play',  () => setPlaying(true));
+  audio?.addEventListener('pause', () => setPlaying(false));
+
+  const startMusic = () => {
+    if (!audio || playing) return;
+
+    audio.play()
+      .then(() => setPlaying(true))
+      .catch(() => setPlaying(false));
+  };
+
+  window.addEventListener('wedding-details-opened', startMusic);
+</script>
+
+<style>
+  .music-player {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(242, 238, 230, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(158, 73, 34, 0.25);
+    border-radius: 50px;
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
+    box-shadow: 0 8px 30px rgba(100, 50, 20, 0.16);
+    transition: transform 0.3s;
+  }
+  .music-player:hover { transform: translateY(-2px); }
+
+  /* Vinilo */
+  .music-player__disc {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+  .music-player__vinyl {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      #2a1a0e 0%, #3d2b1f 25%, #2a1a0e 50%, #3d2b1f 75%, #2a1a0e 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .music-player__disc.spinning .music-player__vinyl {
+    animation: vinyl-spin 2.5s linear infinite;
+  }
+  @keyframes vinyl-spin { to { transform: rotate(360deg); } }
+
+  .music-player__vinyl-inner {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--terracota);
+    box-shadow: 0 0 0 3px var(--cream);
+  }
+
+  /* Controles */
+  .music-player__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .music-player__btn {
+    background: var(--terracota);
+    border: none;
+    color: var(--white);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+  .music-player__btn:hover { background: var(--amber); transform: scale(1.08); }
+  .music-player__icon { width: 16px; height: 16px; }
+
+  .music-player__info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .music-player__label {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  /* Barras animadas */
+  .music-player__bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+  }
+  .music-player__bars span {
+    display: block;
+    width: 3px;
+    background: var(--terracota);
+    border-radius: 2px;
+    height: 3px;
+    transition: height 0.2s;
+  }
+  .music-player__bars.active span:nth-child(1) { animation: bar 0.9s ease-in-out infinite; }
+  .music-player__bars.active span:nth-child(2) { animation: bar 0.9s ease-in-out 0.2s infinite; }
+  .music-player__bars.active span:nth-child(3) { animation: bar 0.9s ease-in-out 0.4s infinite; }
+  .music-player__bars.active span:nth-child(4) { animation: bar 0.9s ease-in-out 0.6s infinite; }
+
+  @keyframes bar {
+    0%, 100% { height: 3px; }
+    50%       { height: 12px; }
+  }
+
+  @media (max-width: 480px) {
+    .music-player { bottom: 1rem; right: 1rem; }
+    .music-player__label { display: none; }
+  }
+</style>
